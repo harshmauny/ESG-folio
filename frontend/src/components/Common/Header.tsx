@@ -20,9 +20,9 @@ export const AcmeLogo = () => {
   )
 }
 
-function Header() {
+export default function Header() {
   return (
-    <Navbar isBordered>
+    <Navbar>
       <NavbarBrand>
         <AcmeLogo />
         <p className="font-bold text-inherit">ACME</p>
@@ -57,5 +57,3 @@ function Header() {
     </Navbar>
   )
 }
-
-export default Header

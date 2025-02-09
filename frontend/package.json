@@ -23,18 +23,13 @@
     "typecheck": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@heroui/button": "^2.2.10",
-    "@heroui/checkbox": "^2.3.9",
-    "@heroui/form": "^2.1.9",
-    "@heroui/input": "^2.4.10",
-    "@heroui/navbar": "^2.2.9",
     "@heroui/react": "^2.6.14",
-    "@heroui/select": "^2.4.10",
-    "@heroui/system": "^2.4.7",
-    "@heroui/theme": "^2.4.6",
+    "axios": "^1.7.9",
+    "formik": "^2.4.6",
     "framer-motion": "^12.4.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
