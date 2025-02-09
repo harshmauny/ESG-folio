@@ -16,6 +16,7 @@ export class Company extends User{
     g_corruptionIncidents: number;
     g_shareholderRightsScore: number; 
     g_dataPrivacyCompliance: boolean;
+    esgScore: number;
     status: string;
     
     constructor(name: string, email: string, password: string) {
@@ -35,6 +36,7 @@ export class Company extends User{
         this.g_corruptionIncidents = 0;
         this.g_shareholderRightsScore = 0;
         this.g_dataPrivacyCompliance = false;
+        this.esgScore = 0;
         this.status = 'reject';
     }
 }
