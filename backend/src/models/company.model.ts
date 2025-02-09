@@ -1,6 +1,6 @@
 import { User } from "./user.model";
 
-export class Investor extends User{
+export class Company extends User{
     e_carbonEmmissions: number;
     e_energyEfficiency: number;
     e_waterUsage: number;
@@ -18,8 +18,8 @@ export class Investor extends User{
     g_dataPrivacyCompliance: boolean;
     status: string;
     
-    constructor(id: number, name: string, email: string, password: string) {
-        super(id, name, email, password, 'company');
+    constructor(name: string, email: string, password: string) {
+        super(name, email, password, 'company');
         this.e_carbonEmmissions = 0;
         this.e_energyEfficiency = 0;
         this.e_waterUsage = 0;
