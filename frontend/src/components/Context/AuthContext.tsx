@@ -65,13 +65,55 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [])
 
   // fetch the user data from token
-  const fetchUser = async () => {}
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(`/user`)
+      setUser(response.data)
+      setIsAuthenticated(true)
+    } catch (error) {
+      console.error('Failed to fetch user:', error)
+      setIsAuthenticated(false)
+    } finally {
+      setLoading(false)
+    }
+  }
 
-  const register = async (data: RegisterData) => {}
+  const register = async (data: RegisterData) => {
+    try {
+      const response = await axios.post(`/register`, data)
+      if (response.data.success) {
+        navigate("/login")
+      }
+      else {
 
-  const login = async (username: string, password: string) => {}
+      }
+    } catch (error) {
+      console.error('Registration failed:', error)
+      throw error
+    }
+  }
 
-  const logout = () => {}
+  const login = async (username: string, password: string) => {
+    try {
+      const response = await axios.post(`/login`, { username, password })
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('name', response.data.name)
+      localStorage.setItem('email', response.data.email)
+      localStorage.setItem('role', response.data.role)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
+      navigate("/")
+    } catch (error) {
+      console.error('Login failed:', error)
+      throw error
+    }
+  }
+
+  const logout = () => {
+    localStorage.removeItem('token')
+    setUser(null)
+    setIsAuthenticated(false)
+    delete axios.defaults.headers.common['Authorization']
+  }
 
   return (
     <AuthContext.Provider
