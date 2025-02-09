@@ -1,18 +1,21 @@
 import { Request, Response } from 'express';
-import { Company } from '../models/company.model';
+import { connectDB } from '../db/connection';
 
-export const getPendingCompanies = async (req: Request, res: Response) => {
+export const getPendingCompanies = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
     try {
-        // TODO
-        const pendingCompanies = await Company.find({ status: 'pending' });
+        const db = await connectDB();
+        const pendingCompanies = await db.collection('company').find({ 'status': 'pending' }).toArray();
         
-        return res.status(200).json({
+        res.status(200).json({
             success: true,
             data: pendingCompanies
         });
     } catch (error) {
         console.error('Error fetching pending companies:', error);
-        return res.status(500).json({
+        res.status(500).json({
             success: false,
             message: 'Internal server error'
         });
@@ -20,42 +23,42 @@ export const getPendingCompanies = async (req: Request, res: Response) => {
 };
 
 
-export const updateCompanyStatus = async (req: Request, res: Response) => {
-    try {
-        const companyId = req.params.id;
-        const { status } = req.body;
+// export const updateCompanyStatus = async (req: Request, res: Response) => {
+//     try {
+//         const companyId = req.params.id;
+//         const { status } = req.body;
 
-        // Validate status
-        if (!['approve', 'reject'].includes(status)) {
-            return res.status(400).json({
-                success: false,
-                message: 'Status must be either approve or reject'
-            });
-        }
+//         // Validate status
+//         if (!['approve', 'reject'].includes(status)) {
+//             return res.status(400).json({
+//                 success: false,
+//                 message: 'Status must be either approve or reject'
+//             });
+//         }
 
-        const company = await Company.findById(companyId);
+//         const company = await Company.findById(companyId);
 
-        if (!company) {
-            return res.status(404).json({
-                success: false,
-                message: 'Company not found'
-            });
-        }
+//         if (!company) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: 'Company not found'
+//             });
+//         }
 
-        company.status = status;
-        await company.save();
+//         company.status = status;
+//         await company.save();
 
-        return res.status(200).json({
-            success: true,
-            message: `Company status updated to ${status}`,
-            data: company
-        });
+//         return res.status(200).json({
+//             success: true,
+//             message: `Company status updated to ${status}`,
+//             data: company
+//         });
 
-    } catch (error) {
-        console.error('Error updating company status:', error);
-        return res.status(500).json({
-            success: false,
-            message: 'Internal server error'
-        });
-    }
-};
+//     } catch (error) {
+//         console.error('Error updating company status:', error);
+//         return res.status(500).json({
+//             success: false,
+//             message: 'Internal server error'
+//         });
+//     }
+// };

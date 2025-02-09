@@ -5,15 +5,29 @@ import { findCompanyById } from '../services/company.services';
 import { connectDB } from '../db/connection';
 
 export const addData = async (req: Request, res: Response): Promise<void> => {
-    const { e_carbonEmmissions, e_energyEfficiency,e_waterUsage, e_wasteManagement, 
-        e_biodiversityImpact, s_employeeDiversityRatio, s_laborPracticesScore, 
-        s_workplaceInjuryRate,s_communityInvestment, s_customerSatisfaction, 
-        g_boardDiversityRatio, g_executivePayRatio,g_corruptionIncidents,  
-        g_shareholderRightsScore, g_dataPrivacyCompliance } = req.body;
+    const { name,esg,environment,sociaal,governance,year,e,s,g } = req.body;
 
     try {
-        //ToDo
-        
+        const db = await connectDB();
+        const newCompany = {
+            name,
+            esg,
+            environment,
+            sociaal,
+            governance,
+            year,
+            e,
+            s,
+            g,
+        };
+
+        await db.collection("company").insertOne(newCompany);
+
+        res.status(201).json({
+            success: true,
+            message: 'Company data added successfully',
+            data: newCompany,
+        });
     } catch (error) {
         console.error('Error during data addition:', error);
         res.status(500).json({

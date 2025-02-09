@@ -5,8 +5,8 @@ import { addData, getDataForCompany, getDataForAllCompanies } from '../controlle
 
 const router = Router();
 
-router.post('/api/company', addData);
-router.get('/api/company/:id', getDataForCompany);
+router.post('/addCompany', addData);
+router.get('/company/:id', getDataForCompany);
 router.get('/companies', getDataForAllCompanies);
 
 export default router;

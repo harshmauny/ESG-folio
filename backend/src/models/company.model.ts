@@ -29,6 +29,8 @@ interface ICompany extends Document {
   environment: number;
   sociaal: number;
   governance: number;
+  year: number,
+  status:string,
   e: Environmental;
   s: Social;
   g: Governance;
@@ -40,6 +42,8 @@ const CompanySchema = new Schema<ICompany>({
   environment: Number,
   sociaal: Number,
   governance: Number,
+  year: Number,
+  status: String,
   e: {
     emissions: Number,
     resourceUse: Number,
