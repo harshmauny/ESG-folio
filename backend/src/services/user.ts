@@ -20,6 +20,9 @@ export const createUser = async (username: string, password: string): Promise<an
     return newUser;
 };
 
+
+
+
 export const findUserByUsername = async (username: string): Promise<any | null> => {
     const db = await connectDB();
 
