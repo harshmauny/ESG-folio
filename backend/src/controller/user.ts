@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { createUser, findUserByUsername } from '../services/user';
+import bcrypt from 'bcrypt';
 
 export const register = async (req: Request, res: Response): Promise<void> => {
     const { username, password } = req.body;
@@ -31,6 +32,52 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         });
     } catch (error) {
         console.error('Registration error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+        });
+    }
+};
+
+
+export const login = async (req: Request, res: Response): Promise<void> => {
+    const { username, password } = req.body;
+
+    try {
+        // Find the user by username
+        const user = await findUserByUsername(username);
+
+        if (!user) {
+            res.status(401).json({
+                success: false,
+                message: 'Invalid username or password',
+            });
+            return;
+        }
+
+        // Compare the provided password with the hashed password in the database
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            res.status(401).json({
+                success: false,
+                message: 'Invalid username or password',
+            });
+            return;
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
+            expiresIn: '1h',
+        });
+
+        res.status(200).json({
+            success: true,
+            message: 'Login successful!',
+            token: token,
+        });
+    } catch (error) {
+        console.error('Login error:', error);
         res.status(500).json({
             success: false,
             message: 'Internal server error',
