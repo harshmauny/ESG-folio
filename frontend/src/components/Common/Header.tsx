@@ -22,12 +22,12 @@ export const AcmeLogo = () => {
 
 export default function Header() {
   return (
-    <Navbar>
+    <Navbar isBordered>
       <NavbarBrand>
-        <AcmeLogo />
-        <p className="font-bold text-inherit">ACME</p>
+        {/* <AcmeLogo /> */}
+        <p className="font-bold text-inherit">ESGfolio</p>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      {/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="#">
             Features
@@ -53,7 +53,7 @@ export default function Header() {
             Sign Up
           </Button>
         </NavbarItem>
-      </NavbarContent>
+      </NavbarContent> */}
     </Navbar>
   )
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, CardBody, CardFooter, Image } from '@heroui/react'
 import ModalView from './Common/Modal'
 import axios from 'axios'
+import Needle from './Common/needleChart'
 
 export interface Company {
   name: string
@@ -10,7 +11,7 @@ export interface Company {
   sociaal: number
   governance: number
   e: {
-    emmission: number
+    emissions: number
     resourceUse: number
     innovation: number
   }
@@ -23,7 +24,7 @@ export interface Company {
   g: {
     management: number
     csrStrategy: number
-    shareholder: number
+    shareholders: number
   }
   price: string
 }
@@ -35,7 +36,7 @@ const defaultCompany: Company = {
   sociaal: 0,
   governance: 0,
   e: {
-    emmission: 0,
+    emissions: 0,
     resourceUse: 0,
     innovation: 0
   },
@@ -48,7 +49,7 @@ const defaultCompany: Company = {
   g: {
     management: 0,
     csrStrategy: 0,
-    shareholder: 0
+    shareholders: 0
   },
   price: ''
 }
@@ -99,11 +100,16 @@ function InvestorView() {
             >
               <CardBody className="overflow-visible p-0">
                 {/* display e, g, s data in item */}
-                <div className="flex flex-col gap-1 p-3">
-                  <p>{`Environment: ${item.environment}`}</p>
+                <div className="flex flex-row gap-2">
+                  <div className="flex flex-col gap-1 p-3">
+                    <p>{`Environment: ${item.environment}`}</p>
 
-                  <p>{`Social: ${item.sociaal}`}</p>
-                  <p>{`Governance: ${item.governance}`}</p>
+                    <p>{`Social: ${item.sociaal}`}</p>
+                    <p>{`Governance: ${item.governance}`}</p>
+                  </div>
+                  <div>
+                    <Needle esgValue={item.esg} />
+                  </div>
                 </div>
               </CardBody>
               <CardFooter className="text-small justify-between">

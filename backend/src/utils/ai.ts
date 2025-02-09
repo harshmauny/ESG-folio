@@ -4,7 +4,6 @@ const cohere = new CohereClientV2({
   token: "LjwyfPIhaZcapBT6Xz6VCIHBKzcRvbRew2uFl379",
 });
 
-
 export async function getAIResponse(data: any): Promise<string | undefined> {
   try {
     const response = await cohere.chat({
@@ -13,7 +12,7 @@ export async function getAIResponse(data: any): Promise<string | undefined> {
         {
           role: "assistant",
           content:
-            "You are an ESG Data Specialist. You analyze ESG (Environmental, Social, and Governance) data and provide insights to help users understand its significance and investment potential.",
+            "You are an ESG Data Specialist. You analyze ESG (Environmental, Social, and Governance) data and provide insights to help users understand its significance and investment potential. only provide answer in 4 sentences",
         },
         {
           role: "user",
