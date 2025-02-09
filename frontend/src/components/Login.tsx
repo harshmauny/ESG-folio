@@ -1,7 +1,9 @@
 import { Formik } from 'formik'
 import { Link } from 'react-router-dom'
+import { useAuth } from './Context/AuthContext'
 
 function Login() {
+  const {login} = useAuth()
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
@@ -34,6 +36,7 @@ function Login() {
             return errors
           }}
           onSubmit={async (values, { setSubmitting }) => {
+            login(values.email,values.password)
             setSubmitting(false)
           }}
         >
