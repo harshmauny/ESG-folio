@@ -18,7 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/company', companyRoutes);
-app.use('/api/auditor', auditorRoutes);
+//app.use('/api/auditor', auditorRoutes);
 
 app.use('/api/company',companyRoutes)
 // Routes
