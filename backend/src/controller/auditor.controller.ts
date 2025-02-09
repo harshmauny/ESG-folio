@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { connectDB } from '../db/connection';
+import { Company } from '../models/company.model';
 
 export const getPendingCompanies = async (
     req: Request,
@@ -23,42 +24,40 @@ export const getPendingCompanies = async (
 };
 
 
-// export const updateCompanyStatus = async (req: Request, res: Response) => {
-//     try {
-//         const companyId = req.params.id;
-//         const { status } = req.body;
+export const updateCompanyStatus = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const companyId = req.params.id;
+        const { status } = req.body;
+        const db = await connectDB();
+        
+        // Convert string ID to MongoDB ObjectId
+        const { ObjectId } = require('mongodb');
+        const objectId = new ObjectId(companyId);
 
-//         // Validate status
-//         if (!['approve', 'reject'].includes(status)) {
-//             return res.status(400).json({
-//                 success: false,
-//                 message: 'Status must be either approve or reject'
-//             });
-//         }
+        const result = await db.collection('company').findOneAndUpdate(
+            { _id: objectId },
+            { $set: { status: status } },
+            { returnDocument: 'after' }
+        );
 
-//         const company = await Company.findById(companyId);
+        if (!result) {
+            res.status(404).json({
+                success: false,
+                message: 'Company not found'
+            });
+        }
 
-//         if (!company) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: 'Company not found'
-//             });
-//         }
+        res.status(200).json({
+            success: true,
+            message: `Company status updated to ${status}`,
+            data: result
+        });
 
-//         company.status = status;
-//         await company.save();
-
-//         return res.status(200).json({
-//             success: true,
-//             message: `Company status updated to ${status}`,
-//             data: company
-//         });
-
-//     } catch (error) {
-//         console.error('Error updating company status:', error);
-//         return res.status(500).json({
-//             success: false,
-//             message: 'Internal server error'
-//         });
-//     }
-// };
+    } catch (error) {
+        console.error('Error updating company status:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        });
+    }
+};

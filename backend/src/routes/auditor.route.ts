@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { getPendingCompanies } from '../controller/auditor.controller';
+import { getPendingCompanies, updateCompanyStatus } from '../controller/auditor.controller';
 
 const router = Router();
 
@@ -7,6 +7,6 @@ const router = Router();
 router.get('/pending-companies', getPendingCompanies);
 
 // Update company status
-//router.post('/api/auditor/company/:id', updateCompanyStatus);
+router.post('/company/:id', updateCompanyStatus);
 
 export default router;
