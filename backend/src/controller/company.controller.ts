@@ -22,7 +22,7 @@ export const addData = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-export const getData = async (req: Request, res: Response): Promise<void> => {
+export const getDataForCompany = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
 
     try {
@@ -48,3 +48,14 @@ export const getData = async (req: Request, res: Response): Promise<void> => {
         });
     }
 }
+
+export const getDataForAllCompanies = async (req: Request, res: Response) => {
+    try {
+      const companies = await Company.find();
+      res.status(200).json(companies);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching companies' });
+    }
+  };
+
+
