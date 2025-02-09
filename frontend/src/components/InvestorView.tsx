@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardBody, CardFooter, Image } from '@heroui/react'
 import ModalView from './Common/Modal'
+import axios from 'axios'
 
 export interface Company {
   name: string
@@ -53,9 +54,11 @@ const defaultCompany: Company = {
 }
 
 function InvestorView() {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [list, setList] = useState<Company[]>([])
   const [selectedCompany, setSelectedCompany] =
-    React.useState<Company>(defaultCompany)
+    useState<Company>(defaultCompany)
+
   const onClose = () => {
     setIsOpen(false)
     setSelectedCompany(defaultCompany)
@@ -65,32 +68,21 @@ function InvestorView() {
     setSelectedCompany(data)
   }
 
-  const list: Company[] = [
-    {
-      name: 'Metal X',
-      esg: 28,
-      environment: 20,
-      sociaal: 27,
-      governance: 41,
-      e: {
-        emmission: 13,
-        resourceUse: 32,
-        innovation: 0
-      },
-      s: {
-        community: 21,
-        workforce: 37,
-        humanRights: 28,
-        productResponsibility: 0
-      },
-      g: {
-        management: 40,
-        csrStrategy: 51,
-        shareholder: 37
-      },
-      price: '72'
+  useEffect(() => {
+    // fetch company data from backend
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('api/company/companies')
+        console.log(response.data)
+        setList(response.data)
+      } catch (error) {
+        console.error('Failed to fetch company data:', error)
+      }
     }
-  ]
+
+    fetchData()
+    // setList(data)
+  }, [])
   return (
     <>
       <div className="container mx-auto p-4">

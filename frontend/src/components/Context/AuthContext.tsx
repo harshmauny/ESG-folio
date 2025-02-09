@@ -14,7 +14,7 @@ export type RegisterData = {
   name: string
   email: string
   password: string
-  userType?: string
+  userType?: 'company' | 'investor'
 }
 
 export type userData = Pick<RegisterData, 'name' | 'email' | 'userType'>
@@ -82,10 +82,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       const response = await axios.post(`/api/auth/register`, data)
       if (response.data.success) {
-        navigate("/login")
-      }
-      else {
-
+        navigate('/login')
+      } else {
       }
     } catch (error) {
       console.error('Registration failed:', error)
@@ -95,13 +93,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await axios.post(`/api/auth/login`, { username, password })
+      const response = await axios.post(`/api/auth/login`, {
+        username,
+        password
+      })
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('name', response.data.name)
       localStorage.setItem('email', response.data.email)
       localStorage.setItem('role', response.data.role)
-      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
-      navigate("/")
+      axios.defaults.headers.common['Authorization'] =
+        `Bearer ${response.data.token}`
+      navigate('/')
     } catch (error) {
       console.error('Login failed:', error)
       throw error
