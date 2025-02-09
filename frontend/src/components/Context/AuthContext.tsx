@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     if (token !== null) {
+      
       // set the token in the axios header
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
       fetchUser()
@@ -99,11 +100,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       })
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('name', response.data.name)
-      localStorage.setItem('email', response.data.email)
-      localStorage.setItem('role', response.data.role)
-      axios.defaults.headers.common['Authorization'] =
-        `Bearer ${response.data.token}`
-      navigate('/')
+      localStorage.setItem('email', response.data.user.email)
+      localStorage.setItem('role', response.data.user.role)
+      setUser({name:response.data.user.name,email:response.data.user.email,userType:response.data.user.role})
+      setIsAuthenticated(true)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
+      navigate("/")
     } catch (error) {
       console.error('Login failed:', error)
       throw error
