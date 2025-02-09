@@ -16,6 +16,7 @@ export class Investor extends User{
     g_corruptionIncidents: number;
     g_shareholderRightsScore: number; 
     g_dataPrivacyCompliance: boolean;
+    status: string;
     
     constructor(id: number, name: string, email: string, password: string) {
         super(id, name, email, password, 'company');
@@ -34,5 +35,6 @@ export class Investor extends User{
         this.g_corruptionIncidents = 0;
         this.g_shareholderRightsScore = 0;
         this.g_dataPrivacyCompliance = false;
+        this.status = 'reject';
     }
 }
