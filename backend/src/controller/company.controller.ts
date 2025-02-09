@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { Company } from '../models/company.model';
 import { findCompanyById } from '../services/company.services';
+import { connectDB } from '../db/connection';
 
 export const addData = async (req: Request, res: Response): Promise<void> => {
     const { e_carbonEmmissions, e_energyEfficiency,e_waterUsage, e_wasteManagement, 
@@ -26,6 +27,8 @@ export const getDataForCompany = async (req: Request, res: Response): Promise<vo
     const { id } = req.params;
 
     try {
+        const db = await connectDB();
+
         const companyData = await findCompanyById(id);
 
         if (!companyData) {
@@ -51,7 +54,10 @@ export const getDataForCompany = async (req: Request, res: Response): Promise<vo
 
 export const getDataForAllCompanies = async (req: Request, res: Response) => {
     try {
-      const companies = await Company.find();
+        const db = await connectDB();
+
+        const companies = await db.collection("company").find({}).toArray();
+
       res.status(200).json(companies);
     } catch (error) {
       res.status(500).json({ message: 'Error fetching companies' });

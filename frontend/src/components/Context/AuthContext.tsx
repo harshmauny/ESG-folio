@@ -42,12 +42,8 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<userData | null>({
-    name: 'Harsh',
-    email: 'Mauny',
-    userType: 'investor'
-  })
-  const [isAuthenticated, setIsAuthenticated] = useState(true)
+  const [user, setUser] = useState<userData | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -84,7 +80,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const register = async (data: RegisterData) => {
     try {
-      const response = await axios.post(`/register`, data)
+      const response = await axios.post(`/api/auth/register`, data)
       if (response.data.success) {
         navigate("/login")
       }
@@ -99,7 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await axios.post(`/login`, { username, password })
+      const response = await axios.post(`/api/auth/login`, { username, password })
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('name', response.data.name)
       localStorage.setItem('email', response.data.email)

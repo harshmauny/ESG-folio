@@ -4,11 +4,11 @@ import { createUser, findUserByUsername } from '../services/user';
 import bcrypt from 'bcrypt';
 
 export const register = async (req: Request, res: Response): Promise<void> => {
-    const { username, password , role} = req.body;
+    const { email, password , userType} = req.body;
 
     try {
         // Check if the user already exists
-        const existingUser = await findUserByUsername(username);
+        const existingUser = await findUserByUsername(email);
         if (existingUser) {
             res.status(400).json({
                 success: false,
@@ -18,7 +18,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         }
 
         // Create a new user
-        const newUser = await createUser(username, password,role);
+        const newUser = await createUser(email, password,userType);
 
         // Generate a JWT token for the new user
         const token = jwt.sign({ userId: newUser._id }, 'your-secret-key', {
@@ -50,7 +50,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         if (!user) {
             res.status(401).json({
                 success: false,
-                message: 'Invalid username or password',
+                message: 'Invalid username',
             });
             return;
         }
