@@ -42,8 +42,12 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<userData | null>(null)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [user, setUser] = useState<userData | null>({
+    name: 'Harsh',
+    email: 'Mauny',
+    userType: 'investor'
+  })
+  const [isAuthenticated, setIsAuthenticated] = useState(true)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 

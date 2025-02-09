@@ -12,7 +12,7 @@ const Loading = () => (
 )
 
 function Main() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
@@ -24,6 +24,7 @@ function Main() {
           path="/register"
           element={!isAuthenticated ? <Register /> : <Navigate to="/" />}
         />
+
         <Route path="/" element={<Home />} />
       </Routes>
     </Suspense>

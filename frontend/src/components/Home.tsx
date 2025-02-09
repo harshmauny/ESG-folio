@@ -1,12 +1,14 @@
 import Header from './Common/Header'
+import CompanyView from './CompanyView'
 import { useAuth } from './Context/AuthContext'
+import InvestorView from './InvestorView'
 
 function Home() {
   const { user } = useAuth()
   return (
     <div>
       <Header />
-      {user?.userType === 'company' ? <p>Company</p> : <p>Investor</p>}
+      {user?.userType === 'company' ? <CompanyView /> : <InvestorView />}
     </div>
   )
 }
