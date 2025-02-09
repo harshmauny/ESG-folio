@@ -2,13 +2,14 @@ import { Db } from 'mongodb';
 import { hashPassword } from '../utils/utils';
 import { connectDB } from '../db/connection';
 
-export const createUser = async (username: string, password: string): Promise<any> => {
+export const createUser = async (username: string, password: string,role:string): Promise<any> => {
     const db = await connectDB();
     const hashedPassword = await hashPassword(password);
 
     const newUser: any = {
         username,
         password: hashedPassword,
+        role:role
     };
 
     // Fetch the "users" collection

@@ -4,7 +4,7 @@ import { createUser, findUserByUsername } from '../services/user';
 import bcrypt from 'bcrypt';
 
 export const register = async (req: Request, res: Response): Promise<void> => {
-    const { username, password } = req.body;
+    const { username, password , role} = req.body;
 
     try {
         // Check if the user already exists
@@ -18,7 +18,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         }
 
         // Create a new user
-        const newUser = await createUser(username, password);
+        const newUser = await createUser(username, password,role);
 
         // Generate a JWT token for the new user
         const token = jwt.sign({ userId: newUser._id }, 'your-secret-key', {
